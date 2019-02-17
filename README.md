@@ -1,2 +1,2 @@
-# llamaPool_frontend
-The Frontend of llamaPool Merged Mining pool
+# llamaPool Front End
+The Website Portion of llamaPool the merged mining software used by Llama & Horse Mining Co.
