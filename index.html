@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name='robots' content='noindex,follow' />
-	<link rel="shortcut icon" href="assets/images/favicon.png">
+	<link rel="shortcut icon" href="//assets.llama.horse/images/favicon.png">
 	<title>Llama & Horse Mining Co. - Triton + Nibble Classic Merged Mining Pool</title>
 	
 	<!-- CSS and Stuff -->
@@ -13,7 +13,6 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-	<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 	<script src="config.js"></script>
 
 	<!-- Fonts -->
@@ -33,7 +32,7 @@
 						<!-- NAV MENU -->
 						<div id="navbar" class="navbar-collapse collapse col-sm-12 col-md-7">
 							<ul class="menu nav navbar-nav pull-left nav-effect nav-menu">
-								<li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="https://llama.horse/">Home <i class="fas fa-sort-down"></i></a>
+								<li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="http://llama.horse/">Home <i class="fas fa-sort-down"></i></a>
 								<ul class="sub-menu">
 									<li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="https://blog.llama.horse/">Blog</a></li>
 									<!-- <li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="https://shop.llama.horse/">Shop</a></li> -->
@@ -70,7 +69,7 @@
 										<li class="menu-item menu-item-type-custom menu-item-object-custom"><a id="workerstats" href="#">Worker Stats</a></li>
 									</ul>
 								</li>
-								<li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="https://llama.horse/">Help <i class="fas fa-sort-down"></i></a>
+								<li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="http://llama.horse/">Help <i class="fas fa-sort-down"></i></a>
 								<ul class="sub-menu">
 									<li class="menu-item menu-item-type-custom menu-item-object-custom"><a id="gettingstarted" href="#">Getting Started</a></li>
 									<li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="https://llama.horse/contact.html">Contact</a></li>
@@ -102,9 +101,9 @@
 														<div class="post-details col-md-12">
 														 	<div class="text-element content-element">
 															 	<div align="center">
-																	<img src="http://assets.llama.horse/images/pool/triton/png/triton_150.png">
+																	<img src="//assets.llama.horse/images/pool/triton/png/triton_150.png">
 																	<i class="fas fa-plus"></i>
-																	<img src="http://assets.llama.horse/images/pool/nibbleclassic/png/nc_150.png">
+																	<img src="//assets.llama.horse/images/pool/nibbleclassic/png/nc_150.png">
 																</div>
 															</div>
 														</div>
@@ -228,7 +227,6 @@
 															<i class="fa fa-users"></i> Connected Miners <strong><span id="childPoolMiners">...</span></strong> (<span id="childPoolWorkers">...</span> workers)<br>
 															<i class="fa fa-cubes"></i> Blocks Found <strong><span id="childBlocksFound">...</span></strong> (<span id="childLastBlockFound">...</span>)<br>
 															<i class="fa fa-money-bill"></i> Pool Fee <strong><span id="childPoolFee">...</span>%</strong><br>
-															
 															<i class="fa fa-history"></i> Avg. Time <strong><span id="childBlockSolvedTime">...</span></strong><br>
 															<i class="fa fa-chart-line"></i> Current Effort <strong><span id="childCurrentEffort">...</span></strong><br>
 															</div>
@@ -271,7 +269,7 @@
 				<div class="container-fluid footer">
 					<div class="col-md-12">
 						<p class="copyright text-center">
-							<img src="/assets/images/logo/logo_100px.png" height="20" width="20"> <a href="http://llama.horse">Llama & Horse Mining Co.</a> 2019 All Rights Reserved.
+							<img src="//assets.llama.horse/images/logo/logo_100px.png" height="20" width="20"> <a href="http://llama.horse">Llama & Horse Mining Co.</a> 2019 All Rights Reserved.
 						</p>
 					</div>
 				</div>
@@ -280,343 +278,11 @@
 	</div>
 
 <!-- SCRIPTS -->
-<script src="http://assets.llama.horse/js/common.js"></script>
+<script src="//assets.llama.horse/js/common.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-timeago/1.6.3/jquery.timeago.min.js"></script>
-
-<!-- POOL STATS SCRIPT -->
-<script>
-// Get current miner address
-function getCurrentAddress() {
-    var urlWalletAddress = location.search.split('wallet=')[1] || 0;
-    var address = urlWalletAddress || docCookies.getItem('mining_address');
-    return address;
-}
-
-// Get stats from pool API
-function getPoolStats(poolID, poolURL) {
-    var apiURL = poolURL + '/stats';
-    $.get(apiURL, function(data){
-        if (!data) return ;
-        
-        // Load current miner statistics
-		var xhrAddressPoll;
-		var addressTimeout;
-        
-        // CONFIG API CALLS 
-        var poolFee = 'N/A';
-        var networkFee = 'N/A';
-        var paymentsInterval = 'N/A';
-        var paymentsMinimum = 'N/A';
-        if (data.config) {
-	        poolFee = data.config.fee || 0;
-	        networkFee = data.config.networkFee || 0;
-	        paymentsInterval = (data.config.paymentsInterval / 60) || 0;
-	        paymentsMinimum = getReadableCoins(data.config.minPaymentThreshold) || 0;
-	        denominationUnite = (data.config.denominationUnit);
-	        coinDecimalPlaces = (data.config.coinDecimalPlaces);
-        }
-        updateText('poolFee', poolFee);
-        updateText('networkFee', networkFee);
-        updateText('paymentsInterval', paymentsInterval);
-        updateText('coinDecimalPlaces', coinDecimalPlaces);
-        updateText('paymentsMinimum', (paymentsMinimum));
-        updateText('denominationUnite', denominationUnite);
-        
-        // POOL API CALLS
-        var poolHashrate = 'N/A';
-        var poolMiners   = 'N/A';
-        var poolWorkers  = 'N/A';
-        var poolMinersPaid = 'N/A';
-        var blocksFound = 'N/A';
-        var totalPayments = 'N/A';
-        if (data.pool) {
-            poolHashrate = getReadableHashRate(data.pool.hashrate);
-            poolMiners   = data.pool.miners || 0;
-            poolWorkers  = data.pool.workers || 0;
-            poolMinersPaid = data.pool.totalMinersPaid || 0;
-            blocksFound = data.pool.totalBlocks.toString();
-            totalPayments = data.pool.totalPayments.toString();
-            lastBlockFound = data.pool.stats.lastBlockFound;
-		}
-		updateText('lastBlockFound', jQuery.timeago(Number(lastBlockFound)));        
-		updateText('poolHashrate', poolHashrate);
-        updateText('poolMiners', poolMiners);
-        updateText('poolWorkers', poolWorkers);
-        updateText('poolMinersPaid', poolMinersPaid);
-        updateText('blocksFound', blocksFound);
-        updateText('paymentsTotal', totalPayments);
-
-		// NETWORK API CALLS
-        var networkHashrate = 'N/A';
-        var networkDiff     = 'N/A';
-        var networkHeight = 'N/A';
-        var networkLastBlockFound = 'N/A';
-        var networkLastReward = 'N/A';
-        if (data.network) {
-            networkHashrate = getReadableHashRate(data.network.difficulty / data.config.coinDifficultyTarget);
-            networkDiff     = formatNumber(data.network.difficulty.toString(), ' ');
-            networkHeight = formatNumber(data.network.height.toString(), ' ');
-            networkLastBlockFound = jQuery.timeago(new Date(data.lastblock.timestamp * 1000).toISOString());
-        }
-		
-        updateText('networkHashrate', networkHashrate);
-        updateText('networkHeight', networkHeight);
-        updateText('networkLastBlockFound', networkLastBlockFound);
-        updateText('networkDiff', networkDiff);
-       
-        // COMBINED CALLS
-        var poolHeight = 'N/A';
-        if (data.network) {
-            poolHeight = formatNumber(data.network.height.toString(), ' ');
-        }
-        updateText('poolHeight', poolHeight);
-		
-        var hashPower = 'N/A';
-        var blockSolvedTime = 'N/A';
-        if (data.pool && data.network) {
-            hashPower = data.pool.hashrate / (data.network.difficulty / data.config.coinDifficultyTarget) * 100;
-            hashPower = hashPower.toFixed(2) + '%';
-            blockSolvedTime = (data.network.difficulty / data.pool.hashrate);
-        }
-        updateText('hashPower', hashPower);
-        updateText('blockSolvedTime', getReadableTime(blockSolvedTime));
-        updateText('currentEffort', (data.pool.roundHashes / data.network.difficulty * 100).toFixed(1) + '%');
-        
-        // format last reward
-        if (data.config.networkFee) {
-            var networkFee = (data.config.networkFee / 100);
-            updateText('networkLastReward', getReadableCoins(data.lastblock.reward - (data.lastblock.reward * networkFee)));
-        } else {
-            updateText('networkLastReward', getReadableCoins(data.lastblock.reward));
-        }
-        
-        
-        // get readable coins
-		function getReadableCoins(coins, digits, withoutSymbol){
-			var coinDecimalPlaces = getCoinDecimalPlaces();
-			var amount = parseFloat((parseInt(coins || 0) / data.config.coinUnits).toFixed(digits || coinDecimalPlaces));
-			return amount.toString() + (withoutSymbol ? '' : (' ' + data.config.symbol));
-		}
-
-		// Get coin decimal places
-		function getCoinDecimalPlaces() {
-			if (typeof coinDecimalPlaces != "undefined") return coinDecimalPlaces;
-			else if (data.config.coinDecimalPlaces) return data.config.coinDecimalPlaces;
-			else data.config.coinUnits.toString().length - 1;
-		}
-
-        var cnAlgorithm = data.config.cnAlgorithm || "cryptonight";
-        var cnVariant = data.config.cnVariant || 0;
-
-        if (cnAlgorithm == "cryptonight_light") {
-            if (cnVariant === 1) {
-                algorithm = 'Cryptonight Light v7';
-            } else if (cnVariant === 2) {
-                algorithm = 'Cryptonight Light';
-            } else {
-                algorithm = 'Cryptonight Light';
-            }
-        }
-        else if (cnAlgorithm == "cryptonight_heavy") {
-            algorithm = 'Cryptonight Heavy';
-        }
-        else {
-            if (cnVariant === 1) {
-                algorithm = 'Cryptonight v7';
-            } else if (cnVariant === 3) {
-                algorithm = 'Cryptonight v7';
-            } else {
-                algorithm = 'Cryptonight';
-            }
-        }
-        updateText('algorithm', algorithm);
-
-    });
-}
-
-function getChildPoolStats(childPoolID, childPoolURL) {
-    var apiURL = childPoolURL + '/stats';
-    $.get(apiURL, function(data){
-        if (!data) return ;
-        
-        // Load current miner statistics
-		var xhrAddressPoll;
-		var addressTimeout;
-        
-        // CONFIG API CALLS 
-        var childpoolFee = 'N/A';
-        var childNetworkFee = 'N/A';
-        var childPaymentsInterval = 'N/A';
-        var childPaymentsMinimum = 'N/A';
-        if (data.config) {
-	        childPoolFee = data.config.fee || 0;
-	        childNetworkFee = data.config.networkFee || 0;
-	        childPaymentsInterval = (data.config.paymentsInterval / 60) || 0;
-	        childPaymentsMinimum = getReadableCoins(data.config.minPaymentThreshold) || 0;
-	        childDenominationUnite = (data.config.denominationUnit);
-        }
-        updateText('childPoolFee', childPoolFee);
-        updateText('childNetworkFee', childNetworkFee);
-        updateText('childPaymentsInterval', childPaymentsInterval);
-        updateText('childPaymentsMinimum', (childPaymentsMinimum));
-        updateText('childDenominationUnite', childDenominationUnite);
-       
-
-        // POOL API CALLS
-        var childPoolHashrate = 'N/A';
-        var childPoolMiners   = 'N/A';
-        var childPoolWorkers  = 'N/A';
-        var childPoolMinersPaid = 'N/A';
-        var childBlocksFound = 'N/A';
-        var childTotalPayments = 'N/A';
-        var lastChildBlockFound = 'N/A';
-        if (data.pool) {
-            childPoolHashrate = getReadableHashRate(data.pool.hashrate);
-            childPoolMiners   = data.pool.miners || 0;
-            childPoolWorkers  = data.pool.workers || 0;
-            childPoolMinersPaid = data.pool.totalMinersPaid || 0;
-            childBlocksFound = data.pool.totalBlocks.toString();
-            childTotalPayments = data.pool.totalPayments.toString();
-			lastChildBlockFound = data.pool.stats.lastBlockFound;
-		}
-		updateText('childLastBlockFound', jQuery.timeago(Number(lastChildBlockFound)));
-        updateText('childPoolHashrate', childPoolHashrate);
-        updateText('childPoolMiners', childPoolMiners);
-        updateText('childPoolWorkers', childPoolWorkers);
-        updateText('childPoolMinersPaid', childPoolMinersPaid);
-        updateText('childBlocksFound', childBlocksFound);
-        updateText('childPaymentsTotal', childTotalPayments);
-
-		// NETWORK API CALLS
-        var childNetworkHashrate = 'N/A';
-        var childNetworkDiff     = 'N/A';
-        var childNetworkHeight = 'N/A';
-        var childNetworkLastBlockFound = 'N/A';
-        var childNetworkLastReward = 'N/A';
-        if (data.network) {
-            childNetworkHashrate = getReadableHashRate(data.network.difficulty / data.config.coinDifficultyTarget);
-            childNetworkDiff     = formatNumber(data.network.difficulty.toString(), ' ');
-            childNetworkHeight = formatNumber(data.network.height.toString(), ' ');
-            childNetworkLastBlockFound = jQuery.timeago(new Date(data.lastblock.timestamp * 1000).toISOString());
-        }
-       
-        updateText('childNetworkHashrate', childNetworkHashrate);
-        updateText('childNetworkHeight', childNetworkHeight);
-        updateText('childNetworkLastBlockFound', childNetworkLastBlockFound);
-        updateText('childNetworkDiff', childNetworkDiff);
-       
-        // COMBINED CALLS
-        var childPoolHeight = 'N/A';
-        if (data.network) {
-            childPoolHeight = formatNumber(data.network.height.toString(), ' ');
-        }
-        updateText('childPoolHeight', childPoolHeight);
-
-        var childHashPower = 'N/A';
-        var childBlockSolvedTime = 'N/A';
-        if (data.pool && data.network) {
-            childHashPower = data.pool.hashrate / (data.network.difficulty / data.config.coinDifficultyTarget) * 100;
-            childHashPower = childHashPower.toFixed(2) + '%';
-            childBlockSolvedTime = (data.network.difficulty / data.pool.hashrate);
-        }
-        updateText('childHashPower', childHashPower);
-        updateText('childBlockSolvedTime', getReadableTime(childBlockSolvedTime));
-        updateText('childCurrentEffort', (data.pool.roundHashes / data.network.difficulty * 100).toFixed(1) + '%');
-        
-        // format last child reward
-        if (data.config.networkFee) {
-            var childNetworkFee = (data.config.networkFee / 100);
-            updateText('childNetworkLastReward', getReadableCoins(data.lastblock.reward - (data.lastblock.reward * childNetworkFee)));
-        } else {
-            updateText('childNetworkLastReward', getReadableCoins(data.lastblock.reward));
-        }
-        
-        // get readable coins
-		function getReadableCoins(coins, digits, withoutSymbol){
-			var coinDecimalPlaces = getCoinDecimalPlaces();
-			var amount = parseFloat((parseInt(coins || 0) / data.config.coinUnits).toFixed(digits || coinDecimalPlaces));
-			return amount.toString() + (withoutSymbol ? '' : (' ' + data.config.symbol));
-		}
-
-		// Get coin decimal places
-		function getCoinDecimalPlaces() {
-			if (typeof coinDecimalPlaces != "undefined") return coinDecimalPlaces;
-			else if (data.config.coinDecimalPlaces) return data.config.coinDecimalPlaces;
-			else data.config.coinUnits.toString().length - 1;
-		}
-
-        var cnAlgorithm = data.config.cnAlgorithm || "cryptonight";
-        var cnVariant = data.config.cnVariant || 0;
-
-        if (cnAlgorithm == "cryptonight_light") {
-            if (cnVariant === 1) {
-                algorithm = 'Cryptonight Light v7';
-            } else if (cnVariant === 2) {
-                algorithm = 'Cryptonight Light';
-            } else {
-                algorithm = 'Cryptonight Light';
-            }
-        }
-        else if (cnAlgorithm == "cryptonight_heavy") {
-            algorithm = 'Cryptonight Heavy';
-        }
-        else {
-            if (cnVariant === 1) {
-                algorithm = 'Cryptonight v7';
-            } else if (cnVariant === 3) {
-                algorithm = 'Cryptonight v7';
-            } else {
-                algorithm = 'Cryptonight';
-            }
-        }
-        updateText('algorithm', algorithm);
-
-    });
-}
-
-// Update pools
-function updatePools() {
-    getPoolStats('Triton', 'http://pool.llama.horse:19233');
-    getChildPoolStats('Nibble Classic', 'http://pool.llama.horse:19234');
-}
-
-// Initialize
-$(function() {
-    setInterval(updatePools, (30*1000));
-    updatePools();
-});
-
-// Update Text content
-function updateText(elementId, text){
-    var el = document.getElementById(elementId);
-    if (el && el.textContent !== text){
-        el.textContent = text;
-    }
-    return el;
-}
-
-// Get readable hashrate
-function getReadableHashRate(hashrate){
-    var i = 0;
-    var byteUnits = [' H', ' KH', ' MH', ' GH', ' TH', ' PH' ];
-    while (hashrate > 1000){
-        hashrate = hashrate / 1000;
-        i++;
-    }
-    return hashrate.toFixed(2) + byteUnits[i] + '/s';
-}
-
-// get miners address
-function getCurrentAddress() {
-    var urlWalletAddress = location.search.split('wallet=')[1] || 0;
-    var address = urlWalletAddress || docCookies.getItem('mining_address');
-    return address;
-}
-
-</script>
+<script src="//assets.llama.horse/js/master.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-<script src="http://assets.llama.horse/plugins/bootstrap/bootstrap.min.js"></script>
-<script src="http://assets.llama.horse/js/main.js"></script>
+<script src="//assets.llama.horse/js/main.js"></script>
 </body>
 </html>
 
