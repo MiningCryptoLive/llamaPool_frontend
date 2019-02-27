@@ -1,11 +1,54 @@
 <div class="row">
+	<div class="col-sm-6">
+		<article class="single-post list-view  no-padding no-margin">
+			<div class="blog_custom">
+				<div class="post-details col-md-12">
+					<div class="text-element content-element">
+						<span><strong>Triton Blocks</strong></span><br>
+						<i class="fa fa-cubes"></i> Blocks Found <strong><span id="blocksFound">...</span></strong><br>
+						<i class="fas fa-clock"></i> Last Block Found <strong><span id="lastBlockFound">...</span></strong><br>
+						<i class="fa fa-history"></i> Avg. Time <strong><span id="blockSolvedTime">...</span></strong><span class="hint--top" aria-label="This is how long it normally takes to find a block">&nbsp<i class="fas fa-info-circle"></i></span><br>
+						<i class="fa fa-chart-line"></i> Current Effort <strong><span id="currentEffort">...</span></strong><span class="hint--top" aria-label="This is how far along we are on the current block">&nbsp<i class="fas fa-info-circle"></i></span><br>
+						<i class="fas fa-unlock-alt"></i> Maturity Requirment <strong><span id="depth">...</span></strong><span class="hint--top" aria-label="This is how many blocks the network requires to verify a new block">&nbsp<i class="fas fa-info-circle"></i></span><br>
+						<i class="fas fa-hat-wizard"></i> Average Luck <strong><span id="blockLuck">...</span></strong><br>
+					</div>
+				</div>
+			</div>
+		</article>
+	</div>
+
+	<div class="col-sm-6">
+		<article class="single-post list-view  no-padding no-margin">
+			<div class="blog_custom">
+				<div class="post-details col-md-12">
+					<div class="text-element content-element">
+						<span><strong>Nibble Classic Blocks</strong></span><br>
+						<i class="fa fa-cubes"></i> Blocks Found <strong><span id="childBlocksFound">...</span></strong><br>
+						<i class="fas fa-clock"></i> Last Block Found <strong><span id="childLastBlockFound">...</span></strong><br>
+						<i class="fa fa-history"></i> Avg. Time <strong><span id="childBlockSolvedTime">...</span></strong><span class="hint--top" aria-label="This is how long it normally takes to find a block">&nbsp<i class="fas fa-info-circle"></i></span><br>
+						<i class="fa fa-chart-line"></i> Current Effort <strong><span id="childCurrentEffort">...</span></strong><span class="hint--top" aria-label="This is how far along we are on the current block">&nbsp<i class="fas fa-info-circle"></i></span><br>
+						<i class="fas fa-unlock-alt"></i> Maturity Requirment <strong><span id="childDepth">...</span></strong><span class="hint--top" aria-label="This is how many blocks the network requires to verify a new block">&nbsp<i class="fas fa-info-circle"></i></span><br>
+						<i class="fas fa-hat-wizard"></i> Average Luck <strong><span id="childBlockLuck">...</span></strong><br>
+					</div>
+				</div>
+			</div>
+		</article>
+	</div>
+</div>
+
+<div class="spacer_20"></div>
+
+<div class="row">
 	<div class="col-sm-12">
 		<article class="single-post list-view  no-padding no-margin">
 			<div class="blog_custom">
 				<div class="post-details col-md-12">
 					<div class="text-element content-element">
 						<div align="center">
-						Pool Blocks
+						<table id="blockTableTable" class="sortable blocktable table table-hover table-condensed">
+							<thead><tr><th>Time</th><th>Reward</th><th>Height</th><th>Difficulty</th><th>Hash</th><th>Effort</th><th>Unlock</th></tr></thead>
+							<tbody id="insertRowsHere"></tbody>
+						</table>
 						</div>
 					</div>
 				</div>
@@ -13,3 +56,151 @@
 		</article>
 	</div>
 </div>
+
+<script>
+// Block Tables
+function getBlockTable(poolID, poolURL) {
+    var apiURL = poolURL + '/stats';
+    var newRow = document.getElementById('insertRowsHere');
+    var totalLuck;
+
+    $.get(apiURL, function(data){
+        if (!data) return;
+		var blockCount = data.pool.totalBlocks;
+		updateText('blockCount', data.pool.totalBlocks);
+	    var parts = data.pool.blocks;
+	    var coinSymbol = data.config.symbol;
+	    
+	    var i;
+	    for (i = 0; i <  Math.min(blockCount*2,62); i+=2) {
+		    parts = data.pool.blocks[i].split(':');
+		    var block = {
+		            hash: parts[0],
+		            time: parts[1],
+		            difficulty: parseInt(parts[2]),
+		            shares: parseInt(parts[3]),
+		            orphaned: parts[4],
+		            reward: parts[5]
+		        };
+		    block.height = data.pool.blocks[i+1];
+		    var effort = (block.shares / block.difficulty * 100).toFixed(1);
+		    
+		    let  toGo = data.config.depth - (data.network.height - block.height) + 1;
+		    if(toGo > 1){
+		        block.maturity = toGo + ' to go';
+		    } 
+		    else if(toGo == 1){
+		        block.maturity = "<i class='fa fa-spinner fa-spin'></i>";
+		    } 
+		    else if(toGo <= 0){
+		        block.maturity = "<i class='fa fa-unlock-alt'></i>";
+		    }
+		        
+		    switch (block.orphaned){
+		        case '0':
+		            block.status = 'unlocked';
+		            block.maturity = "<i class='fa fa-unlock-alt'></i>";
+		            block.color = "info";
+		            break;
+		       case '1':
+		            block.status = 'orphaned';
+		            block.maturity = "<i class='fa fa-times'></i>";
+		            block.reward = 0;
+		            block.color = "danger";
+		            break;
+		        default:
+		            block.status = 'pending';
+		            block.color = "warning";
+		            break;
+		    }
+		    
+		    if (block.orphaned == 1) { block.reward = 0; }
+		    if(typeof block.reward == "undefined"){
+		        reward = "Waiting...";
+		    }
+		    else { reward = block.reward/data.config.coinUnits+' '+coinSymbol; }
+		    
+			tableStr='<tr class="'+block.color+'"><td sorttable_customkey='+(block.time)+'>'+formatDate(block.time)+'</td><td>'+reward+'</td><td>'+data.pool.blocks[i+1]+'</td><td>'+block.difficulty+'</td>';
+			tableStr+='<td>'+block.hash+'</td><td>'+effort+'%</td><td align="center">'+block.maturity+'</td></tr>';
+		    newRow.insertAdjacentHTML('beforeend', tableStr);
+		    
+	    }
+    });
+}
+
+function getchildBlockTable(poolID, poolURL) {
+    var apiURL = poolURL + '/stats';
+    var newRow = document.getElementById('insertRowsHere');
+
+    $.get(apiURL, function(data){
+        if (!data) return;
+		var blockCount = data.pool.totalBlocks;
+		updateText('blockCount', data.pool.totalBlocks);
+	    var parts = data.pool.blocks;
+	    var coinSymbol = data.config.symbol;
+	    
+	    var i;
+	    for (i = 0; i < Math.min(blockCount*2,62); i+=2) {
+		    parts = data.pool.blocks[i].split(':');
+		    var block = {
+		            hash: parts[0],
+		            time: parts[1],
+		            difficulty: parseInt(parts[2]),
+		            shares: parseInt(parts[3]),
+		            orphaned: parts[4],
+		            reward: parts[5],
+		    		height: data.pool.blocks[i+1]
+		        };
+		    var effort = (block.shares / block.difficulty * 100).toFixed(1);
+		    
+		    let  toGo = data.config.depth - (data.network.height - block.height) + 1;
+		    if(toGo > 1){
+		        block.maturity = toGo + ' to go';
+		    } 
+		    else if(toGo == 1){
+		        block.maturity = "<i class='fa fa-spinner fa-spin'></i>";
+		    } 
+		    else if(toGo <= 0){
+		        block.maturity = "<i class='fa fa-unlock-alt'></i>";
+		    }
+		        
+		    switch (block.orphaned){
+		        case '0':
+		            block.status = 'unlocked';
+		            block.maturity = "<i class='fa fa-unlock-alt'></i>";
+		            block.color = "success";
+		            break;
+		       case '1':
+		            block.status = 'orphaned';
+		            block.maturity = "<i class='fa fa-times'></i>";
+		            block.reward = 0;
+		            block.color = "danger";
+		            break;
+		        default:
+		            block.status = 'pending';
+		            block.color = "warning";
+		            break;
+		    }
+		    
+		    if (block.orphaned == 1) { block.reward = 0; }
+		    if(typeof block.reward == "undefined"){
+		        reward = "Waiting...";
+		    }
+		    else { reward = block.reward/data.config.coinUnits+' '+coinSymbol; }
+			tableStr='<tr class="'+block.color+'"><td sorttable_customkey='+(block.time)+'>'+formatDate(block.time)+'</td><td>'+reward+'</td><td>'+data.pool.blocks[i+1]+'</td><td>'+block.difficulty+'</td>';
+			tableStr+='<td>'+block.hash+'</td><td>'+effort+'%</td><td align="center">'+block.maturity+'</td></tr>';
+		    newRow.insertAdjacentHTML('beforeend', tableStr);
+	    }
+    });
+}
+
+// Initialize
+$(function() {
+	setInterval(updatePools, (30*1000));
+    updatePools();
+    getBlockTable('Triton', 'http://pool.llama.horse:19233');
+    getchildBlockTable('Nibble','http://pool.llama.horse:19234');
+});
+
+</script>
+<script src="http://assets.llama.horse/js/sorttable.js"></script>

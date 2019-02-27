@@ -1,15 +1,92 @@
 <div class="row">
-	<div class="col-sm-12">
+	<div class="col-sm-6">
 		<article class="single-post list-view  no-padding no-margin">
 			<div class="blog_custom">
 				<div class="post-details col-md-12">
 					<div class="text-element content-element">
-						<div align="center">
-						Payments
-						</div>
+						<strong>Triton Payment Information</strong><br>
+						<i class="fas fa-coins"></i> XTRI Minimum Payment <strong><span id="paymentsMinimum">...</span></strong><span class="hint--top" aria-label="This is the smallest payment we will send">&nbsp<i class="fas fa-info-circle"></i></span><br>
+						<i class="fa fa-clock"></i> XTRI Payment Interval <strong><span id="paymentsInterval">...</span> minutes</strong><span class="hint--top" aria-label="This is how often we make payments">&nbsp<i class="fas fa-info-circle"></i></span><br>
+						<i class="fas fa-file-invoice-dollar"></i> XTRI Payments Made <strong><span id="paymentsTotal">...</span></strong><br>
+						<i class="fas fa-hand-holding-usd"></i> Miners Paid <strong><span id="poolMinersPaid">...</span></strong>
+					</div>
+				</div>
+			</div>
+		</article>
+	</div>
+	<div class="col-sm-6">
+		<article class="single-post list-view  no-padding no-margin">
+			<div class="blog_custom">
+				<div class="post-details col-md-12">
+					<div class="text-element content-element">
+						<strong>Nibble Classic Payment Information</strong><br>
+						<i class="fas fa-coins"></i> NBX Minimum Payment <strong><span id="childPaymentsMinimum">...</span></strong><span class="hint--top" aria-label="This is the smallest payment we will send">&nbsp<i class="fas fa-info-circle"></i></span><br>
+						<i class="fa fa-clock"></i> NBX Payment Interval <strong><span id="childPaymentsInterval">...</span> minutes</strong><span class="hint--top" aria-label="This is how often we make payments">&nbsp<i class="fas fa-info-circle"></i></span><br>
+						<i class="fas fa-file-invoice-dollar"></i> NBX Payments Made <strong><span id="childPaymentsTotal">...</span></strong><br>
+						<i class="fas fa-hand-holding-usd"></i> Miners Paid <strong><span id="childPoolMinersPaid">...</span></strong>
 					</div>
 				</div>
 			</div>
 		</article>
 	</div>
 </div>
+
+<div class="spacer_20"></div>
+
+<div class="row">
+	<div class="col-sm-12">
+		<article class="single-post list-view  no-padding no-margin">
+			<div class="blog_custom">
+				<div class="post-details col-md-12">
+					<div class="text-element content-element">
+						<table class="table table-hover table-striped">
+							<thead>
+							<tr>
+								<th class="col1"><span data-tkey="timeSent">Time Sent</span></th>
+								<th class="col2"><span data-tkey="transactionHash">Transaction Hash</span></th>
+								<th class="col3"><span data-tkey="amount">Amount</span></th>
+								<th class="col4"><span data-tkey="fee">Fee</span></th>
+								<th class="col5"><span data-tkey="mixin">Mixin</span></th>
+								<th class="col6"><span data-tkey="payees">Payees</span></th>
+            				</tr>
+            				</thead>
+						<tbody id="insertRowsHere">
+    
+            			</tbody>
+        				</table>
+					</div>
+				</div>
+			</div>
+		</article>
+	</div>
+</div>
+
+<script>
+function getPaymentsTable(poolURL) {
+    var apiURL = poolURL + '/stats';
+    var newRow = document.getElementById('insertRowsHere');
+    var payments;
+    
+    $.get(apiURL, function(data){
+        if (!data) return;
+	    parts = data.pool.payments;
+	    var i;
+	    for (var i = 0; i < data.pool.payments.length; i+=2) {
+			parts = data.pool.payments[i].split(':');
+		tableStr='<tr><td>'+formatDate(data.pool.payments[i+1])+'</td><td>'+parts[0]+'</td><td>'+(parts[1]/data.config.coinUnits)+' '+data.config.symbol+'</td><td>'+(parts[2]/data.config.coinUnits)+'</td><td>'+parts[3]+'</td><td>'+parts[4]+'</td></tr>';
+		newRow.insertAdjacentHTML('beforeend', tableStr); 
+	    }
+    });  
+}
+	
+// Initialize
+$(function() {
+	setInterval(updatePools, (30*1000));
+	setInterval(getPaymentsTable, (30*1000));
+	setInterval(getPaymentsTable, (30*1000));
+    updatePools();
+    getPaymentsTable('http://pool.llama.horse:19233');
+    getPaymentsTable('http://pool.llama.horse:19234')
+});
+</script>
+<script src="http://assets.llama.horse/js/sorttable.js"></script>

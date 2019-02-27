@@ -1,15 +1,70 @@
 <div class="row">
-	<div class="col-sm-12">
+	<div class="col-sm-6">
 		<article class="single-post list-view  no-padding no-margin">
 			<div class="blog_custom">
 				<div class="post-details col-md-12">
 					<div class="text-element content-element">
-						<div align="center">
-						Getting Started 
-						</div>
-					</div>
+					<span><strong>Connection Details</strong></span><br>
+					<i class="fa fa-cloud"></i> Mining Pool Address: <strong><span>pool.llama.horse</span></strong><br>
+					<i class="fa fa-cloud"></i> Backup Pool Address: <strong><span>backup.llama.horse</span></strong><br>
+					<br>
+					<i class="fab fa-keycdn"></i> Algorithm: <strong><span id="algorithm">...</span></strong><br>
+					<br>
+					<i class="fas fa-address-book"></i> User Name: <strong>This is your <span id="symbol">...</span> address</strong><br>
+					<i class="far fa-address-book"></i> Password: <strong>This is your <span id="childSymbol">...</span> address</strong><br>
+					<br>
+					We have not tested mining to exchange wallets<br>
+					do so at your own risk.
+					<br>
 				</div>
 			</div>
-		</article>
-	</div>
+		</div>
+	</article>
 </div>
+										 	
+<div class="col-sm-6">
+	<article class="single-post list-view  no-padding no-margin">
+		<div class="blog_custom">
+			<div class="post-details col-md-12">
+				<div class="text-element content-element">
+					<span><strong>Mining Ports</strong></span><br>
+					<table class="table table-hover table-striped">
+						<thead>
+							<tr>
+								<th>Port</th>
+								<th>Starting Difficulty</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody id="insertRowsHere"></tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</article>
+</div>	
+
+<script>
+function getPortsTable(poolURL) {
+    var apiURL = poolURL + '/stats';
+    var newRow = document.getElementById('insertRowsHere');
+    var ports;
+    
+    $.get(apiURL, function(data){
+        if (!data) return;
+	    parts = data.config.ports;
+	    var i;
+	    for (var i = 0; i < data.config.ports.length; i++) {
+			parts = data.config.ports[i];
+		tableStr='<tr><td>'+parts.port+'</td><td>'+parts.difficulty+'</td><td>'+parts.desc+'</td>';
+		newRow.insertAdjacentHTML('beforeend', tableStr); 
+	    }
+    });  
+}
+
+// Initialize
+$(function() {
+    updatePools();
+    getPortsTable('http://pool.llama.horse:19233');
+});
+</script>
