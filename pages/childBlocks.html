@@ -46,8 +46,8 @@
 					<div class="text-element content-element">
 						<div align="center">
 						<ul class="nav nav-tabs">
-							<li class="active"><a href="#">XTRI</a></li>
-							<li><a id="childBlocks" href="#">NBX</a></li>
+							<li><a id="blocks" href="#">XTRI</a></li>
+							<li class="active"><a href="#">NBX</a></li>
 						</ul>
 						<table id="blockTableTable" class="sortable blocktable table table-hover table-condensed">
 							<thead><tr><th>Time</th><th>Reward</th><th>Height</th><th>Difficulty</th><th>Hash</th><th>Effort</th><th>Unlock</th></tr></thead>
@@ -137,7 +137,7 @@ function getBlockTable(poolID, poolURL) {
 $(function() {
 	setInterval(updatePools, (30*1000));
     updatePools();
-    getBlockTable('Triton', 'http://pool.llama.horse:19233');
+    getBlockTable('Nibble','http://pool.llama.horse:19234');
 });
 
 </script>
