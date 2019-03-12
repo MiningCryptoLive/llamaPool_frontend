@@ -13,9 +13,11 @@
 					<i class="fas fa-address-book"></i> User Name: <strong>This is your <span id="symbol">...</span> address</strong><br>
 					<i class="far fa-address-book"></i> Password: <strong>This is your <span id="childSymbol">...</span> address</strong><br>
 					<br>
+					To add a Worker ID use the delimiter @ in the password field<br>
+					<br>
 					We have not tested mining to exchange wallets<br>
 					do so at your own risk.
-					<br>
+					<br><br><br>
 				</div>
 			</div>
 		</div>
@@ -44,9 +46,186 @@
 	</article>
 </div>	
 
+<div class="spacer_20"></div>
+
+<div class="col-sm-12">
+	<article class="single-post list-view  no-padding no-margin">
+		<div class="blog_custom">
+			<div class="post-details col-md-12">
+				<div class="text-element content-element">
+					<span><h3>Optional User Settings:</h3></span>
+					<br>
+					<!-- Verification fields -->
+					<div>
+						<p><span tkey="minerVerification">Wallet address and IP address must mach what one of your workers mining software is sending to the pool.</span></p>
+						<br>
+						<div>
+							<div id="action_update_message" role="alert" ></div>
+    					</div>
+						<br>
+						<div class="row push-down-5">
+							<label class="col-lg-2 col-sm-3 col-form-label col-form-label-lg" for="parentAddress"><span tkey="minerParentAddress">Miner XTRI Address</span>:</label>
+							<div class="col-md-10 col-sm-9">
+								<input class="form-control" id="parentAddress" type="text" tplaceholder="enterYourAddress" placeholder="Enter Your XTRI Address">
+        					</div>
+    					</div>
+						<br>
+						<div class="row push-down-5">
+							<label class="col-lg-2 col-sm-3 col-form-label col-form-label-lg" for="childAddress"><span tkey="minerChildAddress">Miner NBX Address</span>:</label>
+							<div class="col-md-10 col-sm-9">
+								<input class="form-control" id="childAddress" type="text" tplaceholder="enterYourAddress" placeholder="Enter Your NBX Address">
+        					</div>
+    					</div>
+    					<br>
+						<div class="row push-down-5">
+							<label class="col-lg-2 col-sm-3 col-form-label col-form-label-lg" for="yourIP"><span tkey="minerIP">Miner IP address</span>:</label>
+							<div class="col-md-4 col-sm-5">
+								<input class="form-control" id="yourIP" type="text" tkey="enterYourMinerIP" placeholder="Any IP address your workers use ">
+							</div>
+    					</div>
+					</div>
+					<br>
+					<br>
+					<!-- Minimum payout level -->
+					<strong><span tkey="setMinimumPayout">Set your minimal payout level</strong></span>
+				
+					<div>
+						<p><span tkey="minerMinPayout">The amount you indicate here will become the minimum amount for pool payments to your address. If you set a payment above the networks maximum allowable payment you will never get paid so be reasonable.</span></p>
+						<br>
+						<br>
+						<div class="row">
+							<label class="col-lg-2 col-sm-3 col-form-label col-form-label-lg" for="parentPayoutRate"><span tkey="minimumParentPayout">Minimum Parent payout</span>:</label>
+							<div class="col-sm-2 push-down-5">
+								<input class="form-control" id="parentPayoutRate" type="number" value="">
+        					</div>
+							<div class="col-sm-4 push-down-5">
+								<button class="btn btn-default" type="button" id="parentSetButton">
+									<span><i class="fa fa-check"></i>&nbsp; <span tkey="set">Set</span></span>
+								</button>
+        					</div>
+    					</div>
+    					
+    					<div class="row">
+							<label class="col-lg-2 col-sm-3 col-form-label col-form-label-lg" for="childPayoutRate"><span tkey="minimumChildPayout">Minimum Child payout</span>:</label>
+							<div class="col-sm-2 push-down-5">
+								<input class="form-control" id="childPayoutRate" type="number" value="">
+        					</div>
+							<div class="col-sm-4 push-down-5">
+								<button class="btn btn-default" type="button" id="childSetButton">
+									<span><i class="fa fa-check"></i>&nbsp; <span tkey="set">Set</span></span>
+								</button>
+        					</div>
+    					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</article>
+</div>
+
+
 <script>
-function getPortsTable(poolURL) {
-    var apiURL = poolURL + '/stats';
+
+/**
+ * Error Message
+ **/
+function showError(id, message, extra) {
+    if (getTranslation(id)) message = getTranslation(id);
+    message = message.trim();
+    if (extra) message += ' ' + extra;
+    $('#action_update_message').text(message);
+    $('#action_update_message').removeClass().addClass('alert alert-danger');
+}
+
+/**
+ * Success Message
+ **/
+function showSuccess(id, message) {
+    if (getTranslation(id)) message = getTranslation(id);
+    $('#action_update_message').text(message);
+    $('#action_update_message').removeClass().addClass('alert alert-success');
+}
+
+	
+// Get current parent payout level
+function getPayoutLevel(address) {
+    if (!address || address == '') return;
+    
+    $.ajax({
+        url: api + '/get_miner_payout_level',
+        data: {
+            address: address
+        },
+        dataType: 'json',
+        cache: 'false'
+    }).done(function(data){
+        if (data.level != undefined) {
+            $('#parentPayoutRate').val(data.level);
+        }
+    });
+} 
+
+// Get current child payout level
+function getChildPayoutLevel(address) {
+    if (!address || address == '') return;
+    
+    $.ajax({
+        url: childapi + '/get_miner_payout_level',
+        data: {
+            address: address
+        },
+        dataType: 'json',
+        cache: 'false'
+    }).done(function(data){
+        if (data.level != undefined) {
+            $('#childPayoutRate').val(data.level);
+        }
+    });
+} 
+	
+// Set parent payout level
+function setParentPayoutLevel(address, ip, level) {
+    $.ajax({
+        url: childapi + '/set_miner_payout_level',
+        data: {
+            address: address,
+            ip: ip,
+            level: level
+        },
+        dataType: 'json',
+        cache: 'false'
+    }).done(function(data){
+        if (data.status == 'done') {
+            showSuccess('minerPayoutSet', 'Done! Your minimum payout level was set');
+        } else {
+            showError('error', 'Error:', data.status);
+        }
+    });
+}
+
+// Set child payout level
+function setChildPayoutLevel(address, ip, level) {
+    $.ajax({
+        url: childapi + '/set_miner_payout_level',
+        data: {
+            address: address,
+            ip: ip,
+            level: level
+        },
+        dataType: 'json',
+        cache: 'false'
+    }).done(function(data){
+        if (data.status == 'done') {
+            showSuccess('minerPayoutSet', 'Done! Your minimum payout level was set');
+        } else {
+            showError('error', 'Error:', data.status);
+        }
+    });
+}
+
+// get the table of mining ports
+function getPortsTable() {
+    var apiURL = api + '/stats';
     var newRow = document.getElementById('insertRowsHere');
     var ports;
     
@@ -62,9 +241,57 @@ function getPortsTable(poolURL) {
     });  
 }
 
+// Handle click on Set Parent button
+$('#parentSetButton').click(function(){
+    var address = $('#parentAddress').val().trim();
+    if (!address || address == '') {
+        showError('noMinerAddress', 'No parent address specified');
+        return;
+    }
+
+    var ip = $('#yourIP').val().trim();
+    if (!ip || ip == '') {
+        showError('noMinerIP', 'No miner IP address specified');
+        return;
+    }
+
+    var level = $('#parentPayoutRate').val().trim();
+    if (!level || level < 0) {
+        showError('noPayoutLevel', 'No payout level specified');
+        return;
+    }
+
+    setParentPayoutLevel(address, ip, level);
+});
+
+// Handle click on Set button
+$('#childSetButton').click(function(){
+    var address = $('#childAddress').val().trim();
+    if (!address || address == '') {
+        showError('noMinerAddress', 'No child address specified');
+        return;
+    }
+
+    var ip = $('#yourIP').val().trim();
+    if (!ip || ip == '') {
+        showError('noMinerIP', 'No miner IP address specified');
+        return;
+    }
+
+    var level = $('#childPayoutRate').val().trim();
+    if (!level || level < 0) {
+        showError('noPayoutLevel', 'No child payout level specified');
+        return;
+    }
+
+    setChildPayoutLevel(address, ip, level);
+});
+
 // Initialize
 $(function() {
     updatePools();
-    getPortsTable('http://pool.llama.horse:19233');
+    getPortsTable();
 });
 </script>
+<script src="//assets.llama.horse/js/master.js"></script>
+<script src="http://assets.llama.horse/js/sorttable.js"></script>

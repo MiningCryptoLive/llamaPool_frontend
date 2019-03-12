@@ -10,7 +10,6 @@
 						<i class="fa fa-history"></i> Avg. Time <strong><span id="blockSolvedTime">...</span></strong><span class="hint--top" aria-label="This is how long it normally takes to find a block">&nbsp<i class="fas fa-info-circle"></i></span><br>
 						<i class="fa fa-chart-line"></i> Current Effort <strong><span id="currentEffort">...</span></strong><span class="hint--top" aria-label="This is how far along we are on the current block">&nbsp<i class="fas fa-info-circle"></i></span><br>
 						<i class="fas fa-unlock-alt"></i> Maturity Requirment <strong><span id="depth">...</span></strong><span class="hint--top" aria-label="This is how many blocks the network requires to verify a new block">&nbsp<i class="fas fa-info-circle"></i></span><br>
-						<i class="fas fa-hat-wizard"></i> Average Luck <strong><span id="blockLuck">...</span></strong><br>
 					</div>
 				</div>
 			</div>
@@ -28,7 +27,6 @@
 						<i class="fa fa-history"></i> Avg. Time <strong><span id="childBlockSolvedTime">...</span></strong><span class="hint--top" aria-label="This is how long it normally takes to find a block">&nbsp<i class="fas fa-info-circle"></i></span><br>
 						<i class="fa fa-chart-line"></i> Current Effort <strong><span id="childCurrentEffort">...</span></strong><span class="hint--top" aria-label="This is how far along we are on the current block">&nbsp<i class="fas fa-info-circle"></i></span><br>
 						<i class="fas fa-unlock-alt"></i> Maturity Requirment <strong><span id="childDepth">...</span></strong><span class="hint--top" aria-label="This is how many blocks the network requires to verify a new block">&nbsp<i class="fas fa-info-circle"></i></span><br>
-						<i class="fas fa-hat-wizard"></i> Average Luck <strong><span id="childBlockLuck">...</span></strong><br>
 					</div>
 				</div>
 			</div>
@@ -46,7 +44,7 @@
 					<div class="text-element content-element">
 						<div align="center">
 						<ul class="nav nav-tabs">
-							<li><a id="blocks" href="#">XTRI</a></li>
+							<li><a id="parentBlocks" href="#">XTRI</a></li>
 							<li class="active"><a href="#">NBX</a></li>
 						</ul>
 						<table id="blockTableTable" class="sortable blocktable table table-hover table-condensed">
@@ -64,8 +62,8 @@
 
 <script>
 // Block Tables
-function getBlockTable(poolID, poolURL) {
-    var apiURL = poolURL + '/stats';
+function getBlockTable() {
+    var apiURL = childapi + '/stats';
     var newRow = document.getElementById('insertRowsHere');
     var totalLuck;
 
@@ -125,7 +123,7 @@ function getBlockTable(poolID, poolURL) {
 		    }
 		    else { reward = block.reward/data.config.coinUnits+' '+coinSymbol; }
 		    
-			tableStr='<tr class="'+block.color+'"><td sorttable_customkey='+(block.time)+'>'+formatDate(block.time)+'</td><td>'+reward+'</td><td>'+data.pool.blocks[i+1]+'</td><td>'+block.difficulty+'</td>';
+			tableStr='<tr class="'+block.color+'"><td sorttable_customkey='+(block.time)+'>'+formatDate(block.time)+'</td><td>'+reward+'</td><td>'+data.pool.blocks[i+1]+'</td><td>'+formatNumber(block.difficulty.toString(), ' ')+'</td>';
 			tableStr+='<td>'+block.hash+'</td><td>'+effort+'%</td><td align="center">'+block.maturity+'</td></tr>';
 		    newRow.insertAdjacentHTML('beforeend', tableStr);
 		    
@@ -137,7 +135,7 @@ function getBlockTable(poolID, poolURL) {
 $(function() {
 	setInterval(updatePools, (30*1000));
     updatePools();
-    getBlockTable('Nibble','http://pool.llama.horse:19234');
+    getBlockTable();
 });
 
 </script>

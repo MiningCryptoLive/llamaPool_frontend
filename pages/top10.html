@@ -42,8 +42,8 @@
 </div>
 
 <script>
-function getTopTenTable(poolURL) {
-    var apiURL = poolURL + '/get_top10miners';
+function getTopTenTable() {
+    var apiURL = api + '/get_top10miners';
     var newRow = document.getElementById('insertRowsHere');
     var topTen;
     
@@ -53,7 +53,7 @@ function getTopTenTable(poolURL) {
 	    var i;
 	    for (var i = 0; i < data.length; i++) {
 			parts = data[i];
-		tableStr='<tr><td>'+(i+1)+'</td><td>'+parts.miner+'</td><td>'+getReadableHashRateString(parts.hashrate)+' / sec </td><td>'+jQuery.timeago(new Date(parts.lastShare * 1000).toISOString())+'</td><td>'+formatNumber(parts.hashes.toString(), ' ')+'</td></tr>';
+			if (i==0) {tableStr='<tr><td><i class="fas fa-crown"></i></td><td>'+parts.miner+'</td><td>'+getReadableHashRateString(parts.hashrate)+' / sec </td><td>'+jQuery.timeago(new Date(parts.lastShare * 1000).toISOString())+'</td><td>'+formatNumber(parts.hashes.toString(), ' ')+'</td></tr>';} else {tableStr='<tr><td>'+(i+1)+'</td><td>'+parts.miner+'</td><td>'+getReadableHashRateString(parts.hashrate)+' / sec </td><td>'+jQuery.timeago(new Date(parts.lastShare * 1000).toISOString())+'</td><td>'+formatNumber(parts.hashes.toString(), ' ')+'</td></tr>';}
 		newRow.insertAdjacentHTML('beforeend', tableStr); 
 	    }
     });  
@@ -61,7 +61,6 @@ function getTopTenTable(poolURL) {
 	
 // Initialize
 $(function() {
-	setInterval(getTopTenTable, (60*1000));
-    getTopTenTable('http://pool.llama.horse:19233')
+    getTopTenTable()
 });
 </script>

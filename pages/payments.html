@@ -66,8 +66,8 @@
 
 
 <script>
-function getPaymentsTable(poolURL) {
-    var apiURL = poolURL + '/stats';
+function getPaymentsTable() {
+    var apiURL = api + '/stats';
     var newRow = document.getElementById('insertRowsHere');
     var payments;
     
@@ -88,7 +88,7 @@ $(function() {
 	setInterval(updatePools, (30*1000));
 	setInterval(getPaymentsTable, (30*1000));
     updatePools();
-    getPaymentsTable('http://pool.llama.horse:19233');
+    getPaymentsTable();
 
 });
 </script>

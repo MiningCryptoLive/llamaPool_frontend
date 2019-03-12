@@ -4,9 +4,9 @@
 			<div class="blog_custom">
 				<div class="post-details col-md-12">
 					<div class="text-element content-element">
-						<input class="form-control" id="yourStatsInput" type="text" data-tplaceholder="enterYourAddress" placeholder="Enter Your XTRI Address">
+						<input class="form-control stats" id="xtriAdress" type="text" data-tplaceholder="enterYourAddress" placeholder="Enter Your XTRI Address">
 						<br>
-						<input class="form-control" id="yourStatsInput" type="text" data-tplaceholder="enterYourAddress" placeholder="Enter Your NBX Address">
+						<input class="form-control stats" id="nbxAddress" type="text" data-tplaceholder="enterYourAddress" placeholder="Enter Your NBX Address">
 					</div>
 				</div>
 			</div>
@@ -23,11 +23,10 @@
 				<div class="post-details col-md-12">
 					<div class="text-element content-element">
 						<span><strong>Hash Rate</strong></span><br>
-						<i class="fas fa-tachometer-alt"></i> Current Hash Rate: <strong><span id="">...</span></strong><br>
-						<i class="fas fa-business-time"></i> Average 1/6/24-hour Hash Rate: <strong><span id="">...</span></strong><br>
-						<i class="fas fa-clock"></i> Last Share Submitted: <strong><span id="">...</span></strong><br>
-						<i class="fas fa-cloud-upload-alt"></i> Total <span id="symbol"></span> Hashes Submitted: <strong><span id="">...</span></strong><br>
-						<i class="fas fa-cloud-upload-alt"></i> Total <span id="childSymbol"></span> Hashes Submitted: <strong><span id="">...</span></strong><br>
+						<i class="fas fa-tachometer-alt"></i> Current Hash Rate: <strong><span id="currentHashRate">...</span></strong><br>
+						<i class="fas fa-business-time"></i> 1/6/24-hour: <strong><span id="averageHashRate">...</span></strong><br>
+						<i class="fas fa-clock"></i> Last Share Submitted: <strong><span id="lastShareSubmitted">...</span></strong><br>
+						<i class="fas fa-cloud-upload-alt"></i> Total Hashes Submitted: <strong><span id="hashesSubmitted">...</span></strong><br>
 					</div>
 				</div>
 			</div>
@@ -40,10 +39,10 @@
 				<div class="post-details col-md-12">
 					<div class="text-element content-element">
 						<span><strong>XTRI Payments</strong></span><br>
-						<i class="fas fa-university"></i> Pending Balance: <strong><span id="">...</span></strong><br>
-						<i class="fas fa-money-bill"></i> Total Paid: <strong><span id="">...</span></strong><br>
-						<i class="fas fa-hands-helping"></i> Round contribution: <strong><span id="">...</span></strong><br>
-						<i class="fas fa-coins"></i> Current Payout Estimate: <strong><span id="">...</span></strong><br>
+						<i class="fas fa-university"></i> Pending Balance: <strong><span id="parentPendingBalance">...</span></strong><br>
+						<i class="fas fa-money-bill"></i> Total Paid: <strong><span id="parentPaid">...</span></strong><br>
+						<i class="fas fa-hands-helping"></i> Round contribution: <strong><span id="parentRound">...</span>%</strong><br>
+						<i class="fas fa-coins"></i> Current Payout Estimate: <strong><span id="parentPayoutEstimate">...</span></strong><br>
 						<br>
 					</div>
 				</div>
@@ -57,10 +56,10 @@
 				<div class="post-details col-md-12">
 					<div class="text-element content-element">
 						<span><strong>NBX Payments</strong></span><br>
-						<i class="fas fa-university"></i> Pending Balance: <strong><span id="">...</span></strong><br>
-						<i class="fas fa-money-bill"></i> Total Paid: <strong><span id="">...</span></strong><br>
-						<i class="fas fa-hands-helping"></i> Round contribution: <strong><span id="">...</span></strong><br>
-						<i class="fas fa-coins"></i> Current Payout Estimate: <strong><span id="">...</span></strong><br>
+						<i class="fas fa-university"></i> Pending Balance: <strong><span id="childPendingBalance">...</span></strong><br>
+						<i class="fas fa-money-bill"></i> Total Paid: <strong><span id="childPaid">...</span></strong><br>
+						<i class="fas fa-hands-helping"></i> Round contribution: <strong><span id="childRound">...</span>%</strong><br>
+						<i class="fas fa-coins"></i> Current Payout Estimate: <strong><span id="childPayoutEstimate">...</span></strong><br>
 						<br>
 					</div>
 				</div>
@@ -81,19 +80,18 @@
 						<table class="table table-hover table-striped">
 							<thead>
 								<tr>
-									<th class="col1 sort"><span data-tkey="status">Status</span> <i class="fa fa-sort"></i></th>
-									<th class="col2 sort"><span data-tkey="workerName">Worker Name</span> <i class="fa fa-sort"></i></th>
-									<th class="col3 sort"><span data-tkey="hashRate">Hash Rate</span> <i class="fa fa-sort"></i></th>
-									<th class="col4 sort avghr" title="Average hashrate over the last hour (only includes times the worker was active)"><span data-tkey="hashRate1h">HR (1h)</span> <i class="fa fa-sort"></i></th>
-									<th class="col5 sort avghr" title="Average hashrate over the last six hours (only includes times the worker was active)"><span data-tkey="hashRate6h">HR (6h)</span> <i class="fa fa-sort"></i></th>
-									<th class="col6 sort avghr" title="Average hashrate over the last day (only includes times the worker was active)"><span data-tkey="hashRate24h">HR (24h)</span> <i class="fa fa-sort"></i></th>
-									<th class="col7 sort"><span data-tkey="lastShare">Last Share Submitted</span> <i class="fa fa-sort"></i></th>
-									<th class="col8 sort"><span data-tkey="totalHashes">Total Hashes Submitted</span> <i class="fa fa-sort"></i></th>
+									<th class="col1 sort"><span data-tkey="status">Status</span> </th>
+									<th class="col2 sort"><span data-tkey="workerName">Worker Name</span> </th>
+									<th class="col3 sort"><span data-tkey="hashRate">Hash Rate</span> </th>
+									<th class="col4 sort avghr" title="Average hashrate over the last hour (only includes times the worker was active)"><span data-tkey="hashRate1h">HR (1h)</span> </th>
+									<th class="col5 sort avghr" title="Average hashrate over the last six hours (only includes times the worker was active)"><span data-tkey="hashRate6h">HR (6h)</span> </th>
+									<th class="col6 sort avghr" title="Average hashrate over the last day (only includes times the worker was active)"><span data-tkey="hashRate24h">HR (24h)</span> </th>
+									<th class="col7 sort"><span data-tkey="lastShare">Last Share Submitted</span> </th>
+									<th class="col8 sort"><span data-tkey="totalHashes">Total Hashes Submitted</span> </th>
                 				</tr>
                 			</thead>
-							<tbody id="workersReport_rows">
-
-                			</tbody>
+							<tbody id="workersReport_rows"></tbody>
+							<!-- INSERT HERE JOHN -->
             			</table>
 					</div>
 				</div>
@@ -111,10 +109,10 @@
 				<div class="post-details col-md-12">
 					<div class="text-element content-element">
 						<ul class="nav nav-tabs">
-							<li class="active"><a href="#">XTRI</a></li>
-							<li><a href="#">NBX</a></li>
+							<li class="active" id="parentTable"><a href="#">XTRI</a></li>
+							<li id="childTable"><a href="#">NBX</a></li>
 						</ul>
-						<table class="table table-hover table-striped">
+						<table class="table table-hover table-striped" id="xtri_table">
 							<thead>
 								<tr>
 									<th class="col1"><span data-tkey="timeSent">Time Sent</span></th>
@@ -123,16 +121,264 @@
 									<th class="col4"><span data-tkey="mixin">Mixin</span></th>
                 				</tr>
                 			</thead>
-							<tbody id="paymentsReport_rows">
-
-                			</tbody>
+							<tbody id="parentPaymentsReport_rows"></tbody>
             			</table>
+							<table class="table table-hover table-striped" id="nbx_table" style="display: none">
+								<thead>
+									<tr>
+										<th class="col1"><span data-tkey="timeSent">Time Sent</span></th>
+										<th class="col2"><span data-tkey="transactionHash">Transaction Hash</span></th>
+										<th class="col3"><span data-tkey="amount">Amount</span></th>
+										<th class="col4"><span data-tkey="mixin">Mixin</span></th>
+	                				</tr>
+	                			</thead>
+								<tbody id="childPaymentsReport_rows"></tbody>
+	            			</table>
 					</div>
 					<p class="yourStats text-center push-up-10">
 						<button type="button" class="btn btn-default" id="loadMorePayments"><span data-tkey="loadMore">Load More</span></button>
+						<button type="button" class="btn btn-default" id="loadMoreNBXPayments" style="display: none;"><span data-tkey="loadMore">Load More</span></button>
     				</p><br>
 				</div>
 			</div>
 		</article>
 	</div>
 </div>
+
+<script src="//assets.llama.horse/js/master.js"></script>
+<script src="//assets.llama.horse/js/common.js"></script>
+
+<script>
+// Store Wallets on users computer machines
+setTimeout(function(){
+	if(localStorage.getItem("xtriAdress") != undefined && localStorage.getItem("xtriAdress") != null && localStorage.getItem("xtriAdress") != '' && localStorage.getItem("nbxAddress") != undefined && localStorage.getItem("nbxAddress") != null && localStorage.getItem("nbxAddress") != ""){
+		$('#xtriAdress').val(localStorage.getItem("xtriAdress"));
+		$('#nbxAddress').val(localStorage.getItem("nbxAddress"));
+		calls();
+	}
+},500)
+
+$('#xtriAdress').unbind('keypress');
+$('#xtriAdress').keypress(function(event){   
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+	    calls();  
+    }
+});
+
+$('#nbxAddress').unbind('keypress');
+$('#nbxAddress').keypress(function(event){    
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        calls();  
+    }
+});
+
+function calls(){	
+	localStorage.setItem("xtriAdress", $("#xtriAdress").val());
+    var temp_1 = statsCall(api + "/live_stats", $("#xtriAdress").val());  
+    var temp_2 = statsCall(api + "/stats_address", $("#xtriAdress").val());   
+
+    localStorage.setItem("nbxAddress", $("#nbxAddress").val());
+    var temp_3 = statsCall(childapi + "/live_stats", $("#nbxAddress").val());  
+    var temp_4 = statsCall(childapi + "/stats_address", $("#nbxAddress").val());   
+
+    var data = Object.assign(temp_1, temp_2);
+    var childData = Object.assign(temp_3, temp_4);
+	    
+	displayStats(data, childData); // displayStats(data,'nbx');
+}
+
+// COMMON
+
+function statsCall(url, address){
+    var res = $.ajax({
+        url: url,
+        type: 'GET',
+        data: {address: address},
+        async: false
+    })
+	
+	.done(function(response) {
+        console.log(response);
+    })
+	
+	.fail(function() {
+	        console.log("error");
+	    })
+	    .always(function() {
+	        console.log("complete");
+	    });
+	    return res.responseJSON;
+	}
+
+function displayStats(data, childData){
+		
+	var currentHashRate = 'N/A';
+	var averageHashRate = 'N/A';
+	var lastShareSubmitted = 'N/A';
+	var totalHashesSubmitted = 'N/A';		
+
+    currentHashRate = getReadableHashRate(data.stats.hashrate*1);
+    averageHashRate = getReadableHashRate(data.stats.hashrate_1h*1) +" / " + getReadableHashRate(data.stats.hashrate_6h*1) + " / " + getReadableHashRate(data.stats.hashrate_24h*1);
+
+    if (data.stats.lastShare) {
+    	$('#lastShareSubmitted').timeago('update', new Date(parseInt(data.stats.lastShare) * 1000).toISOString());
+    } else {
+        updateText('lastShareSubmitted', 'Never');
+    }	
+	
+	updateText('currentHashRate', currentHashRate);
+	updateText('averageHashRate', averageHashRate);
+			
+	totalHashesSubmitted = data.stats.hashes;
+	
+	// PARENT DATA
+	updateText('hashesSubmitted', totalHashesSubmitted);
+	updateText('parentPendingBalance', (data.stats.balance*1)/data.config.coinUnits);
+	updateText('parentPaid', (data.stats.paid*1)/data.config.coinUnits);
+
+	var userRoundHashes = parseInt(data.stats.roundHashes || 0);
+	var poolRoundHashes = parseInt(data.pool.roundHashes || 0);
+	var share_pct = userRoundHashes * 100 / poolRoundHashes;
+	updateText('parentRound', Math.round(share_pct * 1000) / 1000);
+		
+	var userRoundScore = parseFloat(data.stats.roundScore || 0);
+	var poolRoundScore = parseFloat(data.pool.roundScore || 0);		
+	var score_pct = userRoundScore * 100 / poolRoundScore;
+	var lastReward = parseFloat(data.lastblock.reward || 0);
+	var payoutEstimate = Math.round(lastReward * (score_pct / 100));
+	var transferFee = data.config.transferFee;
+	
+	if (transferFee) payoutEstimate = payoutEstimate - transferFee;
+	
+	if (payoutEstimate < 0) payoutEstimate = 0;
+	updateText('parentPayoutEstimate', ((payoutEstimate*1)/data.config.coinUnits));
+		
+	// CHILD DATA			
+	updateText('childPendingBalance', (childData.stats.balance*1)/childData.config.coinUnits);
+	updateText('childPaid', (childData.stats.paid*1)/childData.config.coinUnits);
+
+	var userRoundHashes = parseInt(childData.stats.roundHashes || 0);
+	var poolRoundHashes = parseInt(childData.pool.roundHashes || 0);
+	var share_pct = userRoundHashes * 100 / poolRoundHashes;
+	updateText('childRound', Math.round(share_pct * 1000) / 1000);
+		
+	var userRoundScore = parseFloat(childData.stats.roundScore || 0);
+	var poolRoundScore = parseFloat(childData.pool.roundScore || 0);		
+	var score_pct = userRoundScore * 100 / poolRoundScore;
+	var lastReward = parseFloat(childData.lastblock.reward || 0);
+	var payoutEstimate = Math.round(lastReward * (score_pct / 100));
+	var transferFee = childData.config.transferFee;
+	            
+	if (transferFee) payoutEstimate = payoutEstimate - transferFee;
+	
+	if (payoutEstimate < 0) payoutEstimate = 0;
+	updateText('childPayoutEstimate', (payoutEstimate*1)/childData.config.coinUnits);
+
+	var html = "";
+	data.workers.forEach(function(item){
+		html += '<tr><td><i class="fa fa-check status-ok"></i></td>';
+		html += "<td>"+item['name']+"</td>";
+		html +=  "<td>"+getReadableHashRate(item['hashrate']*1)+"</td>";
+		html +=  "<td>"+getReadableHashRate(item['hashrate_1h']*1)+"</td>";
+		html +=  "<td>"+getReadableHashRate(item['hashrate_6h']*1)+"</td>";
+		html +=  "<td>"+getReadableHashRate(item['hashrate_24h']*1)+"</td>";
+		html +=  "<td>"+jQuery.timeago(new Date(item['lastShare']*1000).toISOString())+"</td>";		
+		html +=  "<td>"+(item['hashes']*1)+"</td>";
+		html += "</tr>";
+	});
+	
+	$('#workersReport_rows').html(html);			
+	html = "";
+	data.payments.forEach(function(item,index){
+		if(index%2==0){
+			var date = new Date(parseInt(data.payments[index+1]) * 1000).toLocaleDateString();
+			var time = new Date(parseInt(data.payments[index+1]) * 1000).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric',second:'numeric', hour12: true });
+			date = date + " " + time;
+			var splitData = item.split(":");
+			
+			if(index<40){
+				html += '<tr><td>'+date+'</td>';
+			}else{
+				html += '<tr style="display:none"><td>'+date+'</td>';
+			}
+		        
+		    html += "<td>"+splitData[0]+"</td>";
+		    html +=  "<td>"+((splitData[1]*1)/data.config.coinUnits)+" "+data.config.symbol+"</td>";
+		    html +=  "<td>"+splitData[3]+"</td>";
+		    html += "</tr>";				
+		}
+	});
+
+	$('#parentPaymentsReport_rows').html(html);
+	html = "";
+	childData.payments.forEach(function(item,index){
+		if(index%2==0){
+			var date = new Date(parseInt(childData.payments[index+1]) * 1000).toLocaleDateString();
+			var time = new Date(parseInt(childData.payments[index+1]) * 1000).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric',second:'numeric', hour12: true });
+			date = date + " " + time;
+			var splitData = item.split(":");
+			
+			if(index<40){
+				html += '<tr><td>'+date+'</td>';
+			}else{
+				html += '<tr style="display:none"><td>'+date+'</td>';
+			}
+		        
+		    html += "<td>"+splitData[0]+"</td>";
+		    html +=  "<td>"+((splitData[1]*1)/childData.config.coinUnits)+" "+childData.config.symbol+"</td>";
+		    html +=  "<td>"+splitData[3]+"</td>";
+		    html += "</tr>";	
+		}
+	});
+			
+	$('#childPaymentsReport_rows').html(html);
+
+	$("#loadMorePayments").unbind('click');
+	$("#loadMorePayments").on('click', function (e) {
+		e.preventDefault();
+		$("#parentPaymentsReport_rows tr:hidden").slice(0, 20).slideDown();
+		$('html,body').animate({
+		    scrollTop: $(this).offset().top
+		}, 1000);
+	});
+	
+	$("#loadMoreNBXPayments").unbind('click');
+	$("#loadMoreNBXPayments").on('click', function (e) {
+		e.preventDefault();
+		$("#childPaymentsReport_rows tr:hidden").slice(0, 20).slideDown();
+		$('html,body').animate({
+		    scrollTop: $(this).offset().top
+		}, 1000);
+	});
+}
+
+	
+// TABLE TABS
+$("#parentTable").unbind("click");
+$("#parentTable").click(function(event) {
+	if(!$(this).hasClass('active')){
+		$("ul.nav.nav-tabs li").removeClass('active');
+		$(this).addClass('active');
+		$('#nbx_table').hide();
+		$("#loadMoreNBXPayments").hide();
+		$('#xtri_table').show();
+		$("#loadMorePayments").show();
+    }
+return false;
+});
+
+$("#childTable").unbind("click");
+$("#childTable").click(function(event) {
+	if(!$(this).hasClass('active')){
+		$("ul.nav.nav-tabs li").removeClass('active');
+		$(this).addClass('active');
+		$('#xtri_table').hide();
+		$("#loadMorePayments").hide();
+		$("#loadMoreNBXPayments").show();
+		$('#nbx_table').show();
+    }
+return false;
+});
+</script>

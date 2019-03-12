@@ -40,7 +40,7 @@
 				<div class="post-details col-md-12">
 					<div class="text-element content-element">					
 						<ul class="nav nav-tabs">
-							<li><a id="payments" href="#">XTRI</a></li>
+							<li><a id="parentPayments" href="#">XTRI</a></li>
 							<li class="active"><a href="#">NBX</a></li>
 							</ul>
 							<table class="table table-hover table-striped">
@@ -65,8 +65,8 @@
 </div>
 
 <script>
-function getPaymentsTable(poolURL) {
-    var apiURL = poolURL + '/stats';
+function getPaymentsTable() {
+    var apiURL = childapi + '/stats';
     var newRow = document.getElementById('insertRowsHere');
     var payments;
     
@@ -87,7 +87,7 @@ $(function() {
 	setInterval(updatePools, (30*1000));
 	setInterval(getPaymentsTable, (30*1000));
     updatePools();
-    getPaymentsTable('http://pool.llama.horse:19234');
+    getPaymentsTable();
 
 });
 </script>
