@@ -1,2 +1,2 @@
-var api = "http://pool.llama.horse:19233";
-var childapi = "http://pool.llama.horse:19234";
+var api = "http://ltc-doge.solopool.us/api/pool";
+var childapi = "http://ltc-doge.solopool.us/api";
