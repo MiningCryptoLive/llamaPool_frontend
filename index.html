@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name='robots' content='noindex,follow' />
     <link rel="shortcut icon" href="//assets.llama.horse/images/favicon.png">
-    <title>Llama & Horse Mining Co. - Triton + Nibble Classic Merged Mining Pool</title>
+    <title>Solopool.us LTC + DOGE Merged Mining Pool</title>
 
     <!-- CSS and JS -->
     <link rel='stylesheet' type='text/css' media='all' href='http://assets.llama.horse/css/style-inline.css' />
@@ -50,35 +50,15 @@
                         <!-- NAV MENU -->
                         <div id="navbar" class="navbar-collapse collapse col-sm-12 col-md-7">
                             <ul class="menu nav navbar-nav pull-left nav-effect nav-menu">
-                                <li class="menu-item"><a href="http://llama.horse/">Home <i class="fas fa-sort-down"></i></a>
+                                <li class="menu-item"><a href="http://ltc-doge.solopool.us/">Home <i class="fas fa-sort-down"></i></a>
                                     <ul class="sub-menu">
-                                        <li class="menu-item"><a href="https://blog.llama.horse/">Blog</a></li>
+                                       <!-- <li class="menu-item"><a href="https://blog.llama.horse/">Blog</a></li> -->
                                         <!-- <li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="https://shop.llama.horse/">Shop</a></li> -->
                                     </ul>
                                 </li>
                                 <li class="menu-item"><a class="dropdown-toggle" href="#">Pools <i class="fas fa-sort-down"></i></a>
                                     <ul class="sub-menu">
-                                        <li class="menu-item"><a href="http://xtri.nbx.llama.horse">Triton + Nibble Classic</a></li>
-                                        <li class="menu-item"><a href="http://sumo.luk.llama.horse">Sumo + Luka</a></li>
-                                        <li class="menu-item"><a href="http://xta.bloc.llama.horse">ItaloCoin + Bloc Money</a></li>
-                                        <li class="menu-item"><a href="http://arq.lcx.llama.horse">Arqma + LightChain</a></li>
-                                        <li class="menu-item"><a href="http://plura.b2b.llama.horse">PluraCoin + B2B</a></li>
-                                        <li class="menu-item"><a href="https://ple.llama.horse">Plenteum</a></li>
-                                        <li class="menu-item"><a href="http://osc.llama.horse">Ocsillate</a></li>
-                                        <li class="menu-item"><a href="https://mtip.llama.horse">MonkeyTips</a></li>
-                                        <li class="menu-item"><a href="https://lmo.llama.horse">Lumeneo</a></li>
-                                        <li class="menu-item"><a href="https://trtl.llama.horse">TurtleCoin</a></li>
-                                    </ul>
-                                </li>
-                                <li class="menu-item"><a class="dropdown-toggle" href="#">Faucets <i class="fas fa-sort-down"></i></a>
-                                    <ul class="sub-menu">
-                                        <li class="menu-item"><a href="https://trtl.faucet.llama.horse">TurtleCoin</a></li>
-                                        <li class="menu-item"><a href="https://ple.faucet.llama.horse">Plenteum</a></li>
-                                        <li class="menu-item"><a href="https://xta.faucet.llama.horse">ItaloCoin</a></li>
-                                        <li class="menu-item"><a href="https://plura.faucet.llama.horse">PluraCoin</a></li>
-                                        <li class="menu-item"><a href="https://mtip.faucet.llama.horse">MonkeyTips</a></li>
-                                        <li class="menu-item"><a href="https://nbx.faucet.llama.horse">Nibble Classic</a></li>
-                                        <li class="menu-item"><a href="https://lmo.faucet.llama.horse">Lumeneo</a></li>
+                                        <li class="menu-item"><a href="http://ltc-doge.solopool.us">LTC & DOGE Merged Mining</a></li>                                  
                                     </ul>
                                 </li>
                                 <li class="menu-item"><a href="#" id="pool-stats">Pool Stats <i class="fas fa-sort-down"></i></a>
@@ -159,7 +139,7 @@
                                                             <!-- PARENT NETWORK -->
                                                             <div class="post-details col-md-12">
                                                                 <div class="text-element content-element">
-                                                                    <span><strong>Triton Network Stats</strong></span><br>
+                                                                    <span><strong>LTC Network Stats</strong></span><br>
                                                                     <i class="fa fa-globe"></i> Network Hashrate <strong><span id="networkHashrate">...</span></strong><br>
                                                                     <i class="fa fa-bars"></i> Network Height <strong><span id="networkHeight">...</span></strong><br>
                                                                     <i class="fa fa-unlock-alt"></i> Network Difficulty <strong><span id="networkDiff">...</span></strong><br>
@@ -178,7 +158,7 @@
                                                             <!-- PARENT POOL -->
                                                             <div class="post-details col-md-12">
                                                                 <div class="text-element content-element">
-                                                                    <span><strong>Triton Pool Stats</strong></span><br>
+                                                                    <span><strong>LTC Pool Stats</strong></span><br>
                                                                     <i class="fas fa-pastafarianism"></i> Pool Hashrate <strong><span id="poolHashrate">...</span></strong> (<span id="hashPower">...</span>)<br>
                                                                     <i class="fa fa-users"></i> Connected Miners <strong><span id="poolMiners">...</span></strong> (<span id="poolWorkers">...</span> workers)<br>
                                                                     <i class="fa fa-cubes"></i> Blocks Found <strong><span id="blocksFound">...</span></strong> (<span id="lastBlockFound">...</span>)<br>
@@ -197,10 +177,10 @@
                                                             <!-- PARENT PAYMENTS -->
                                                             <div class="post-details col-md-12">
                                                                 <div class="text-element content-element">
-                                                                    <span><strong>Triton Payments</strong></span><br>
-                                                                    <i class="fas fa-coins"></i> XTRI Minimum Payment <strong><span id="paymentsMinimum">...</span></strong><br>
-                                                                    <i class="fa fa-clock"></i> XTRI Payment Interval <strong><span id="paymentsInterval">...</span> minutes</strong><br>
-                                                                    <i class="fas fa-file-invoice-dollar"></i> XTRI Payments Made <strong><span id="paymentsTotal">...</span></strong><br>
+                                                                    <span><strong>Payments</strong></span><br>
+                                                                    <i class="fas fa-coins"></i> Minimum Payment <strong><span id="paymentsMinimum">...</span></strong><br>
+                                                                    <i class="fa fa-clock"></i> Payment Interval <strong><span id="paymentsInterval">...</span> minutes</strong><br>
+                                                                    <i class="fas fa-file-invoice-dollar"></i> Payments Made <strong><span id="paymentsTotal">...</span></strong><br>
                                                                     <i class="fas fa-hand-holding-usd"></i> Miners Paid <strong><span id="poolMinersPaid">...</span></strong>
                                                                     <br>
                                                                     <br>
@@ -222,7 +202,7 @@
                                                             <!-- CHILD NETWORK -->
                                                             <div class="post-details col-md-12">
                                                                 <div class="text-element content-element">
-                                                                    <span><strong>Nibble Classic Network Stats</strong></span><br>
+                                                                    <span><strong>Doge Network Stats</strong></span><br>
                                                                     <i class="fa fa-globe"></i> Network Hashrate <strong><span id="childNetworkHashrate">...</span></strong><br>
                                                                     <i class="fa fa-bars"></i> Network Height <strong><span id="childNetworkHeight">...</span></strong><br>
                                                                     <i class="fa fa-unlock-alt"></i> Network Difficulty <strong><span id="childNetworkDiff">...</span></strong><br>
@@ -242,7 +222,7 @@
                                                             <!-- CHILD POOL -->
                                                             <div class="post-details col-md-12">
                                                                 <div class="text-element content-element">
-                                                                    <span><strong>Nibble Classic Pool Stats</strong></span><br>
+                                                                    <span><strong>Doge Pool Stats</strong></span><br>
                                                                     <i class="fas fa-pastafarianism"></i> Pool Hashrate <strong><span id="childPoolHashrate">...</span></strong> (<span id="childHashPower">...</span>)<br>
                                                                     <i class="fa fa-users"></i> Connected Miners <strong><span id="childPoolMiners">...</span></strong> (<span id="childPoolWorkers">...</span> workers)<br>
                                                                     <i class="fa fa-cubes"></i> Blocks Found <strong><span id="childBlocksFound">...</span></strong> (<span id="childLastBlockFound">...</span>)<br>
@@ -261,10 +241,10 @@
                                                             <!-- CHILD PAYMENTS -->
                                                             <div class="post-details col-md-12">
                                                                 <div class="text-element content-element">
-                                                                    <span><strong>Nibble Classic Payments</strong></span><br>
-                                                                    <i class="fas fa-coins"></i> NBX Minimum Payment <strong><span id="childPaymentsMinimum">...</span></strong><br>
-                                                                    <i class="fa fa-clock"></i> NBX Payment Interval <strong><span id="childPaymentsInterval">...</span> minutes</strong><br>
-                                                                    <i class="fas fa-file-invoice-dollar"></i> NBX Payments Made <strong><span id="childPaymentsTotal">...</span></strong><br>
+                                                                    <span><strong> Payments</strong></span><br>
+                                                                    <i class="fas fa-coins"></i>  Minimum Payment <strong><span id="childPaymentsMinimum">...</span></strong><br>
+                                                                    <i class="fa fa-clock"></i>  Payment Interval <strong><span id="childPaymentsInterval">...</span> minutes</strong><br>
+                                                                    <i class="fas fa-file-invoice-dollar"></i>  Payments Made <strong><span id="childPaymentsTotal">...</span></strong><br>
                                                                     <i class="fas fa-hand-holding-usd"></i> Miners Paid <strong><span id="childPoolMinersPaid">...</span></strong>
                                                                     <br>
                                                                     <br>
@@ -290,7 +270,7 @@
                             <div class="container-fluid footer">
                                 <div class="col-md-12">
                                     <p class="copyright text-center">
-                                        <img src="//assets.llama.horse/images/logo/logo_100px.png" height="20" width="20"> <a href="http://llama.horse">Llama & Horse Mining Co.</a> 2019 All Rights Reserved.
+                                        <img src="//assets.llama.horse/images/logo/logo_100px.png" height="20" width="20"> <a href="http://llama.horse">solopool.us</a> 2019 All Rights Reserved.
                                     </p>
                                 </div>
                             </div>
